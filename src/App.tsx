@@ -16,9 +16,9 @@ type DigitFunction = {
 };
 
 const NUMBERS: IrrationalNumber[] = [
-  { name: 'Pi (π)', symbol: 'π', digits: PI, description: '3.14159265...' },
-  { name: 'Phi (φ)', symbol: 'φ', digits: PHI, description: '1.61803398...' },
-  { name: "Euler's number (e)", symbol: 'e', digits: E, description: '2.71828182...' },
+  { name: 'Pi', symbol: 'π', digits: PI, description: '3.14159265…' },
+  { name: 'Phi', symbol: 'φ', digits: PHI, description: '1.61803398…' },
+  { name: 'Euler', symbol: 'e', digits: E, description: '2.71828182…' },
 ];
 
 const FUNCTIONS: DigitFunction[] = [
@@ -126,82 +126,82 @@ export default function App() {
   }, [binaryString]);
 
   const maxDigits = number.digits.length;
+  const trueCount = states.filter(s => s).length;
+  const falseCount = states.length - trueCount;
+  const ratio = states.length > 0 ? ((trueCount / states.length) * 100).toFixed(1) : '0.0';
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-mono relative overflow-hidden">
-      {/* Background grid effect */}
-      <div className="fixed inset-0 opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-        backgroundSize: '20px 20px'
-      }} />
-      
-      {/* Glowing orbs */}
-      <div className="fixed top-[-200px] left-[-200px] w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[100px] pointer-events-none" />
-      <div className="fixed bottom-[-200px] right-[-200px] w-[500px] h-[500px] rounded-full bg-cyan-600/10 blur-[100px] pointer-events-none" />
+    <div className="min-h-screen" style={{ backgroundColor: '#F4EDE4', color: '#2D2926' }}>
+      <div className="max-w-5xl mx-auto px-6 py-12 md:py-16">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
-        <header className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-            Irrational Explorer
-          </h1>
-          <p className="text-gray-500 text-sm tracking-widest uppercase">
-            Visualize the hidden patterns in infinite digits
+        <header className="mb-12 md:mb-16">
+          <div className="flex items-baseline gap-3 mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: '#2D2926' }}>
+              Irrational Explorer
+            </h1>
+            <span className="text-sm" style={{ color: '#B5ADA4' }}>—</span>
+            <span className="text-sm" style={{ color: '#8C837A' }}>digit patterns</span>
+          </div>
+          <p className="text-sm" style={{ color: '#8C837A' }}>
+            Choose a number, apply a function, observe the structure.
           </p>
         </header>
 
-        {/* Controls */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Controls Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
           {/* Number selector */}
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 backdrop-blur-sm">
-            <label className="block text-xs uppercase tracking-wider text-purple-400 mb-3 font-semibold">
-              Irrational Number
+          <div className="p-5 rounded-lg" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <label className="block text-xs uppercase tracking-wider mb-3 font-medium" style={{ color: '#8C837A' }}>
+              Number
             </label>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2">
               {NUMBERS.map((num, i) => (
                 <button
                   key={num.name}
                   onClick={() => setSelectedNumber(i)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    selectedNumber === i
-                      ? 'bg-purple-500/20 border border-purple-400/50 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
-                      : 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:border-purple-400/30 hover:text-purple-300'
-                  }`}
+                  className="flex-1 py-2.5 rounded-md text-sm font-medium transition-colors duration-150"
+                  style={{
+                    backgroundColor: selectedNumber === i ? '#C2694A' : 'transparent',
+                    color: selectedNumber === i ? '#F4EDE4' : '#2D2926',
+                    border: selectedNumber === i ? '1px solid #C2694A' : '1px solid #DDD5CB',
+                  }}
                 >
-                  <span className="text-lg mr-1">{num.symbol}</span>
-                  <span className="hidden sm:inline">{num.name}</span>
+                  <span className="font-mono text-base">{num.symbol}</span>
+                  <span className="ml-1.5 hidden sm:inline">{num.name}</span>
                 </button>
               ))}
             </div>
-            <p className="text-gray-600 text-xs mt-3">{number.description}</p>
           </div>
 
           {/* Function selector */}
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 backdrop-blur-sm">
-            <label className="block text-xs uppercase tracking-wider text-cyan-400 mb-3 font-semibold">
-              Digit Function
+          <div className="p-5 rounded-lg" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <label className="block text-xs uppercase tracking-wider mb-3 font-medium" style={{ color: '#8C837A' }}>
+              Function
             </label>
             <select
               value={selectedFunction}
               onChange={(e) => setSelectedFunction(Number(e.target.value))}
-              className="w-full bg-[#12121a] border border-white/[0.08] rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-cyan-400/50 focus:shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-all"
+              className="w-full rounded-md px-3 py-2.5 text-sm font-medium focus:outline-none transition-colors"
+              style={{
+                backgroundColor: '#F4EDE4',
+                border: '1px solid #DDD5CB',
+                color: '#2D2926',
+              }}
             >
               {FUNCTIONS.map((f, i) => (
                 <option key={f.id} value={i}>{f.name}</option>
               ))}
             </select>
-            <p className="text-gray-600 text-xs mt-3">{func.description}</p>
           </div>
-        </div>
 
-        {/* Range controls */}
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 mb-8 backdrop-blur-sm">
-          <label className="block text-xs uppercase tracking-wider text-emerald-400 mb-4 font-semibold">
-            Digit Range
-          </label>
-          <div className="flex flex-wrap items-center gap-4">
+          {/* Range */}
+          <div className="p-5 rounded-lg" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <label className="block text-xs uppercase tracking-wider mb-3 font-medium" style={{ color: '#8C837A' }}>
+              Range
+            </label>
             <div className="flex items-center gap-2">
-              <span className="text-gray-500 text-xs">From</span>
               <input
                 type="number"
                 min={0}
@@ -212,11 +212,10 @@ export default function App() {
                   setStartDigit(v);
                   if (v >= endDigit) setEndDigit(v + 1);
                 }}
-                className="w-24 bg-[#12121a] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-emerald-400/50 transition-all"
+                className="w-20 rounded-md px-3 py-2.5 text-sm font-mono focus:outline-none"
+                style={{ backgroundColor: '#F4EDE4', border: '1px solid #DDD5CB', color: '#2D2926' }}
               />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500 text-xs">To</span>
+              <span style={{ color: '#B5ADA4' }}>→</span>
               <input
                 type="number"
                 min={1}
@@ -227,117 +226,134 @@ export default function App() {
                   setEndDigit(v);
                   if (v <= startDigit) setStartDigit(v - 1);
                 }}
-                className="w-24 bg-[#12121a] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-emerald-400/50 transition-all"
+                className="w-20 rounded-md px-3 py-2.5 text-sm font-mono focus:outline-none"
+                style={{ backgroundColor: '#F4EDE4', border: '1px solid #DDD5CB', color: '#2D2926' }}
               />
-            </div>
-            <div className="text-gray-600 text-xs">
-              {endDigit - startDigit} digits shown
-            </div>
-            <div className="flex-1" />
-            <div className="flex gap-2">
-              <button
-                onClick={() => { setStartDigit(0); setEndDigit(100); }}
-                className="px-3 py-1.5 text-xs bg-white/[0.03] border border-white/[0.08] rounded-lg text-gray-400 hover:text-emerald-300 hover:border-emerald-400/30 transition-all"
-              >
-                0–100
-              </button>
-              <button
-                onClick={() => { setStartDigit(0); setEndDigit(500); }}
-                className="px-3 py-1.5 text-xs bg-white/[0.03] border border-white/[0.08] rounded-lg text-gray-400 hover:text-emerald-300 hover:border-emerald-400/30 transition-all"
-              >
-                0–500
-              </button>
-              <button
-                onClick={() => { setStartDigit(0); setEndDigit(Math.min(1000, maxDigits)); }}
-                className="px-3 py-1.5 text-xs bg-white/[0.03] border border-white/[0.08] rounded-lg text-gray-400 hover:text-emerald-300 hover:border-emerald-400/30 transition-all"
-              >
-                0–1000
-              </button>
             </div>
           </div>
         </div>
 
+        {/* Preset buttons */}
+        <div className="flex gap-2 mb-8 flex-wrap">
+          {[
+            { label: '1–100', s: 0, e: 100 },
+            { label: '1–250', s: 0, e: 250 },
+            { label: '1–500', s: 0, e: 500 },
+            { label: '100–200', s: 100, e: 200 },
+            { label: '500–600', s: 500, e: 600 },
+          ].map(preset => (
+            <button
+              key={preset.label}
+              onClick={() => { setStartDigit(preset.s); setEndDigit(Math.min(preset.e, maxDigits)); }}
+              className="px-3 py-1.5 rounded text-xs font-medium transition-colors duration-150"
+              style={{
+                backgroundColor: 'transparent',
+                border: '1px solid #DDD5CB',
+                color: '#8C837A',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#C2694A'; e.currentTarget.style.color = '#C2694A'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#DDD5CB'; e.currentTarget.style.color = '#8C837A'; }}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Function description */}
+        <div className="mb-6 px-1">
+          <p className="text-sm font-mono" style={{ color: '#8C837A' }}>
+            <span style={{ color: '#2D2926' }}>{func.name}</span>
+            <span className="mx-2" style={{ color: '#B5ADA4' }}>·</span>
+            {func.description}
+          </p>
+        </div>
+
         {/* Visualization */}
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 mb-6 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
+        <div className="p-6 rounded-lg mb-8" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+          {/* Legend + Copy */}
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-5">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-gradient-to-br from-purple-400 to-cyan-400 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                <span className="text-xs text-gray-400">True</span>
+                <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#C2694A' }} />
+                <span className="text-xs" style={{ color: '#8C837A' }}>True</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-[#1a1a2e] border border-white/[0.08]" />
-                <span className="text-xs text-gray-400">False</span>
+                <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#D9D2CA' }} />
+                <span className="text-xs" style={{ color: '#8C837A' }}>False</span>
               </div>
             </div>
             <button
               onClick={handleCopy}
-              className={`px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 ${
-                copied
-                  ? 'bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                  : 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:border-emerald-400/30 hover:text-emerald-300'
-              }`}
+              className="px-4 py-2 rounded-md text-xs font-medium transition-colors duration-150"
+              style={{
+                backgroundColor: copied ? '#C2694A' : 'transparent',
+                color: copied ? '#F4EDE4' : '#8C837A',
+                border: copied ? '1px solid #C2694A' : '1px solid #DDD5CB',
+              }}
             >
-              {copied ? '✓ Copied!' : 'Copy States'}
+              {copied ? 'Copied ✓' : 'Copy states'}
             </button>
           </div>
 
           {/* Squares grid */}
-          <div className="flex flex-wrap gap-[2px] p-3 bg-[#06060a] rounded-xl border border-white/[0.04]">
+          <div className="flex flex-wrap gap-[3px] p-4 rounded-md" style={{ backgroundColor: '#E5DDD3' }}>
             {states.map((state, i) => (
               <div
                 key={`${startDigit + i}`}
-                className={`w-[6px] h-[6px] sm:w-[8px] sm:h-[8px] md:w-[10px] md:h-[10px] rounded-[1px] transition-all duration-150 ${
-                  state
-                    ? 'bg-gradient-to-br from-purple-400 to-cyan-400 shadow-[0_0_4px_rgba(168,85,247,0.4)]'
-                    : 'bg-[#1a1a2e] border border-white/[0.04]'
-                }`}
+                className="w-[7px] h-[7px] sm:w-[9px] sm:h-[9px] md:w-[11px] md:h-[11px] rounded-[1px]"
+                style={{
+                  backgroundColor: state ? '#C2694A' : '#D9D2CA',
+                }}
                 title={`Digit ${startDigit + i}: ${digitsArray[i]} → ${state ? '1' : '0'}`}
               />
             ))}
           </div>
 
           {/* Digit reference */}
-          <div className="mt-4 flex flex-wrap gap-[2px] px-3">
+          <div className="mt-4 flex flex-wrap gap-[3px] px-4">
             {digitsArray.slice(0, Math.min(digitsArray.length, 200)).map((d, i) => (
               <span
                 key={`ref-${i}`}
-                className={`text-[8px] sm:text-[9px] w-[6px] h-[10px] sm:w-[8px] sm:h-[12px] md:w-[10px] md:h-[14px] flex items-center justify-center ${
-                  states[i] ? 'text-purple-300/70' : 'text-gray-700'
-                }`}
+                className="font-mono w-[7px] h-[10px] sm:w-[9px] sm:h-[12px] md:w-[11px] md:h-[14px] flex items-center justify-center"
+                style={{
+                  fontSize: '7px',
+                  color: states[i] ? '#C2694A' : '#B5ADA4',
+                }}
               >
                 {d}
               </span>
             ))}
-            {digitsArray.length > 200 && <span className="text-gray-700 text-xs ml-2">...</span>}
+            {digitsArray.length > 200 && (
+              <span className="text-xs ml-2" style={{ color: '#B5ADA4' }}>…</span>
+            )}
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-purple-400">{states.filter(s => s).length}</div>
-            <div className="text-[10px] uppercase tracking-wider text-gray-500 mt-1">True</div>
+        <div className="grid grid-cols-4 gap-3 mb-12">
+          <div className="p-4 rounded-lg text-center" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <div className="text-xl font-bold font-mono" style={{ color: '#C2694A' }}>{trueCount}</div>
+            <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: '#8C837A' }}>True</div>
           </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-gray-400">{states.filter(s => !s).length}</div>
-            <div className="text-[10px] uppercase tracking-wider text-gray-500 mt-1">False</div>
+          <div className="p-4 rounded-lg text-center" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <div className="text-xl font-bold font-mono" style={{ color: '#2D2926' }}>{falseCount}</div>
+            <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: '#8C837A' }}>False</div>
           </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-cyan-400">
-              {((states.filter(s => s).length / states.length) * 100).toFixed(1)}%
-            </div>
-            <div className="text-[10px] uppercase tracking-wider text-gray-500 mt-1">Ratio</div>
+          <div className="p-4 rounded-lg text-center" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <div className="text-xl font-bold font-mono" style={{ color: '#2D2926' }}>{ratio}%</div>
+            <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: '#8C837A' }}>Ratio</div>
           </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-emerald-400">{states.length}</div>
-            <div className="text-[10px] uppercase tracking-wider text-gray-500 mt-1">Total</div>
+          <div className="p-4 rounded-lg text-center" style={{ backgroundColor: '#EDE6DC', border: '1px solid #DDD5CB' }}>
+            <div className="text-xl font-bold font-mono" style={{ color: '#2D2926' }}>{states.length}</div>
+            <div className="text-[10px] uppercase tracking-wider mt-1" style={{ color: '#8C837A' }}>Total</div>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="text-center text-gray-700 text-xs">
-          <p>Exploring the beauty of irrational numbers through their digit patterns</p>
+        <footer className="pt-6" style={{ borderTop: '1px solid #DDD5CB' }}>
+          <p className="text-xs" style={{ color: '#B5ADA4' }}>
+            {number.description} · {number.name} · {maxDigits} digits available
+          </p>
         </footer>
       </div>
     </div>

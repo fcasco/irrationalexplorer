@@ -1,1 +1,59 @@
 @import "tailwindcss";
+
+:root {
+  --bg: #1a1625;
+  --bg-card: #241e33;
+  --bg-deep: #15111d;
+  --text: #e8e4f0;
+  --text-muted: #a89bb8;
+  --text-faint: #6b5f7a;
+  --accent: #c9375c;
+  --accent-soft: #e85d7f;
+  --border: #3d3452;
+  --false-bg: #2d2640;
+  --emerald: #2d9b6e;
+  --sapphire: #3b5998;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+select option {
+  background: var(--bg-card);
+  color: var(--text);
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.3;
+}
+
+.font-mono {
+  font-family: 'DM Mono', monospace !important;
+}
